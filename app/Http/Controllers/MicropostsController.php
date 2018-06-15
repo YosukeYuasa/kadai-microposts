@@ -6,24 +6,29 @@ use Illuminate\Http\Request;
 
 class MicropostsController extends Controller
 {
-    //
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+   
+   
     public function index()
     {
         $data = [];
         if (\Auth::check()) {
             $user = \Auth::user();
-            $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
-
-            $data = [
+            $microposts = $user->feed_microposts()->orderBy('created_at', 'desc')->paginate(10);
+              $data = [
                 'user' => $user,
                 'microposts' => $microposts,
             ];
-            $data += $this->counts($user);
-            return view('users.show', $data);
+            return view('welcome', $data);
         }else {
             return view('welcome');
         }
     }
+    
     
     public function store(Request $request)
     {
@@ -38,7 +43,7 @@ class MicropostsController extends Controller
         return redirect()->back();
     }
     
-    public function destroy($id)
+        public function destroy($id)
     {
         $micropost = \App\Micropost::find($id);
 
@@ -48,5 +53,4 @@ class MicropostsController extends Controller
 
         return redirect()->back();
     }
-    
 }
