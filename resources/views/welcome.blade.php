@@ -2,8 +2,7 @@
 
 @section('content')
 @if (Auth::check())
-        <?php $user = Auth::user(); ?>
-        {{ $user->name }}
+        
         
         <div class="row">
             <aside class="col-md-4">
